@@ -1,0 +1,21 @@
+{
+  "name": "cover_letter_llm",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tw-build": "npx tailwindcss -i ./webapp/static/css/src/input.css -o ./webapp/static/css/dist/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gerardmietek/cover_letter_llm.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gerardmietek/cover_letter_llm/issues"
+  },
+  "homepage": "https://github.com/gerardmietek/cover_letter_llm#readme",
+  "description": "",
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}
