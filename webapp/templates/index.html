@@ -10,41 +10,33 @@
     <script src=""></script>
 </head>
 <body>
-    <div class="min-h-screen" style="background-image: linear-gradient(115deg, #323631, #95a192 );">
+    <div class="min-h-screen" style="background-image: linear-gradient(115deg, #230624, #ab037e );">
         <div class="container mx-auto py-20">
             <div class="flex w-8/12 bg-white rounded-xl mx-auto shadow-lg overflow-hidden">
 
-                <!-- Left Side (Form Inputs) -->
                 <div class="flex flex-col w-1/2 py-8 px-12 text-center">
                     <h2 class="text-3xl whitespace-nowrap py-2">Fill this form:</h2>
 
-                    <!-- Formularz z metodą GET -->
-                    <form action="/" method="POST" class="flex flex-col">
-                        <!-- Imię -->
+                    <form id="form" class="flex flex-col">
+
                         <input type="text" id="name" name="name" placeholder="Enter your full name"
-                               class="px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                               class="px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
 
-                        <!-- E-mail -->
                         <input type="text" id="mail" name="mail" placeholder="Enter your e-mail"
-                               class="px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                               class="px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
 
-                        <!-- Numer telefonu -->
                         <input type="text" id="num" name="num" placeholder="Enter your phone number"
-                               class="px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                               class="px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
 
-                        <!-- Stanowisko -->
                         <input type="text" id="title" name="title" placeholder="Enter your job title"
-                               class="px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                               class="px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
 
-                        <!-- Nazwa firmy -->
                         <input type="text" id="cname" name="cname" placeholder="Enter the company name"
-                               class="px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                               class="px-4 py-2 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" required>
 
-                        <!-- Opis pracy -->
                         <textarea id="desc" name="desc" placeholder="Describe the job (max. 300 characters)" maxlength="300"
-                                  class="resize-none px-4 py-2 h-32 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-left"></textarea>
+                                  class="resize-none px-4 py-2 h-32 mb-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-left" required></textarea>
 
-                        <!-- Wybór maksymalnej długości -->
                         <div class="flex flex-col w-full mb-4 pt-4 pb-2">
                             <h2 class="text-2xl whitespace-nowrap">Select maximum length:</h2>
                             <div class="flex space-x-4 justify-center items-center py-4">
@@ -67,25 +59,40 @@
                                 </label>
                             </div>
                         </div>
-
-                        <!-- Przycisk submit -->
                         <button type="submit"
                                 class="mt-6 px-6 py-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                             Submit
                         </button>
                     </form>
                 </div>
-                <!-- Right Side -->
-                <div class="w-1/2 bg-cover" style="background-image: url('{{ url_for('static', filename='images/image.jpg') }}');">
-                    {% if cover_letter %}
-                    <h3 class="mt-6 text-2xl font-bold">Your Cover Letter:</h3>
-                    <div class="mt-4 p-4 bg-gray-100 rounded-md">
-                        <p>{{ cover_letter }}</p>
+                <div class="flex flex-col w-1/2 bg-cover px-6 pb-6" style="background-image: url('{{ url_for('static', filename='images/image.jpg') }}'); height: auto;">
+                    <h3 class="mt-6 text-2xl font-bold text-center text-white">Your cover letter!</h3>
+                
+                    <div class="mt-4 p-4 bg-gray-100 rounded-md px-6 flex-grow">
+                        <div id="result"
+                            class="whitespace-pre-line h-full w-full overflow-y-auto px-4 py-2 border border-gray-300 rounded-md text-left bg-white text-gray-800">
+                        </div>
                     </div>
-                {% endif %}
                 </div>
 
+
+
+                <script>
+                    const form = document.getElementById("form");
                 
+                    form.addEventListener("submit", async (e) => {
+                      e.preventDefault();
+                      const formData = new FormData(form);
+                
+                      const response = await fetch("/generate", {
+                        method: "POST",
+                        body: formData,
+                      });
+                
+                      const data = await response.json();
+                      document.getElementById("result").innerText = data.cover_letter;
+                    });
+                </script>
 
             </div>
         </div>
